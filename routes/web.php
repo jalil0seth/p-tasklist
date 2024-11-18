@@ -13,6 +13,7 @@ Route::middleware(['auth'])->group(function () {
     Route::delete('/tasks/{task}', [TaskController::class, 'destroy'])->name('tasks.destroy');
     Route::post('/tasks/{task}/expand', [TaskController::class, 'expand'])->name('tasks.expand');
     Route::post('/tasks/prioritize', [TaskController::class, 'prioritize'])->name('tasks.prioritize');
+    Route::post('/tasks/brainstorm', [TaskController::class, 'brainstorm'])->name('tasks.brainstorm');
     Route::post('/tasks/{task}/tags/{tag}', [TaskController::class, 'attachTag'])->name('tasks.tags.attach');
     Route::delete('/tasks/{task}/tags/{tag}', [TaskController::class, 'detachTag'])->name('tasks.tags.detach');
 

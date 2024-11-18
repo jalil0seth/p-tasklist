@@ -112,4 +112,43 @@ class TaskController extends Controller
             ], 500);
         }
     }
+
+    public function brainstorm(Request $request)
+    {
+        $validated = $request->validate([
+            'taskDescription' => 'required|string',
+            'estimatedTime' => 'required|integer|min:1',
+            'priority' => 'required|string|in:high,medium,low'
+        ]);
+
+        try {
+            $analysis = $this->livePollsService->analyzeBrainstorm($validated);
+            
+            return response()->json([
+                'success' => true,
+                'analysis' => $analysis
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to analyze task'
+            ], 500);
+        }
+    }
+
+    public function attachTag(Task $task, Tag $tag)
+    {
+        $task->tags()->attach($tag->id);
+        return response()->json([
+            'message' => 'Tag attached successfully'
+        ]);
+    }
+
+    public function detachTag(Task $task, Tag $tag)
+    {
+        $task->tags()->detach($tag->id);
+        return response()->json([
+            'message' => 'Tag detached successfully'
+        ]);
+    }
 }
